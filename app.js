@@ -19,7 +19,11 @@ app.get('/', (req, res) => {
 })
 
 app.get('/restaurants/:restaurant_id', (req, res) => {
-  res.render('show')
+  const { restaurant_id } = req.params
+  const restaurant = restaurants.results.find(
+    (restaurant) => restaurant_id === restaurant.id.toString()
+  )
+  res.render('show', { restaurant })
 })
 
 app.use((req, res) => {
@@ -28,11 +32,11 @@ app.use((req, res) => {
   res.send('404 - Not Found')
 })
 
-app.use((err, req, res, next) => {
-  res.type('text/plain')
-  res.status(500)
-  res.send('500 - Server Error')
-})
+// app.use((err, req, res, next) => {
+//   res.type('text/plain')
+//   res.status(500)
+//   res.send('500 - Server Error')
+// })
 
 app.listen(port, () => {
   console.log(
