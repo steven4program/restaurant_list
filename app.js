@@ -1,10 +1,25 @@
 const express = require('express')
 const app = express()
+const { engine } = require('express-handlebars')
 
 const port = process.env.PORT || 3000
 
+// restaurants data
+const restaurants = require('./restaurant.json')
+
+// express template engine
+app.engine('.hbs', engine({ extname: '.hbs', defaultLayout: 'main' }))
+app.set('view engine', '.hbs')
+
+// setting static files
+app.use(express.static('public'))
+
 app.get('/', (req, res) => {
-  res.send('This is my restaurants list.')
+  res.render('index')
+})
+
+app.get('/restaurants/:restaurant_id', (req, res) => {
+  res.render('show')
 })
 
 app.use((req, res) => {
