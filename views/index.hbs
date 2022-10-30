@@ -19,6 +19,17 @@
   </div>
 </div>
 
+{{!-- render this block when result is empty --}}
+{{#if emptyResult}}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="alert alert-danger col-md-4 text-center" >
+      沒有符合條件" {{keyword}} "的餐廳
+    </div>
+  </div>
+</div>
+{{/if}}
+
 <!-- restaurant list -->
 <div class="container mt-5">
   <div class="row">

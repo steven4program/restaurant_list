@@ -19,13 +19,20 @@ app.get('/', (req, res) => {
 })
 
 app.get('/search', (req, res) => {
-  const { keyword } = req.query
+  // remove whitespace characters
+  const keyword = req.query.keyword.trim()
   const restaurants = restaurantsData.results.filter(
     (restaurant) =>
       restaurant.name.toLowerCase().includes(keyword.toLowerCase()) ||
       restaurant.category.toLowerCase().includes(keyword.toLowerCase())
   )
-  res.render('index', { restaurants, keyword })
+
+  // show alert when result is empty
+  let emptyResult = false
+  if (restaurants.length === 0) {
+    emptyResult = true
+  }
+  res.render('index', { restaurants, keyword, emptyResult })
 })
 
 app.get('/restaurants/:restaurant_id', (req, res) => {
@@ -42,11 +49,11 @@ app.use((req, res) => {
   res.send('404 - Not Found')
 })
 
-app.use((err, req, res, next) => {
-  res.type('text/plain')
-  res.status(500)
-  res.send('500 - Server Error')
-})
+// app.use((err, req, res, next) => {
+//   res.type('text/plain')
+//   res.status(500)
+//   res.send('500 - Server Error')
+// })
 
 app.listen(port, () => {
   console.log(
