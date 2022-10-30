@@ -49,11 +49,11 @@ app.use((req, res) => {
   res.send('404 - Not Found')
 })
 
-// app.use((err, req, res, next) => {
-//   res.type('text/plain')
-//   res.status(500)
-//   res.send('500 - Server Error')
-// })
+app.use((err, req, res, next) => {
+  res.type('text/plain')
+  res.status(500)
+  res.send('500 - Server Error')
+})
 
 app.listen(port, () => {
   console.log(
