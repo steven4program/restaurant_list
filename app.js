@@ -25,6 +25,7 @@ app.set('view engine', '.hbs')
 
 // setting static files
 app.use(express.static('public'))
+app.use(express.urlencoded({ extended: true }))
 
 app.get('/', async (req, res) => {
   try {
@@ -59,11 +60,49 @@ app.get('/search', async (req, res) => {
   }
 })
 
-app.get('/restaurants/:id', async (req, res) => {
-  const { id } = req.params
+// get to restaurant-adding page
+app.get('/restaurants/new', (req, res) => {
+  try {
+    res.render('new')
+  } catch (err) {
+    console.error(err)
+  }
+})
+
+// create a new restaurant
+app.post('/restaurants', (req, res) => {
+  const {
+    name,
+    name_en,
+    category,
+    image,
+    location,
+    phone,
+    google_map,
+    rating,
+    description
+  } = req.body
+
+  return Restaurant.create({
+    name,
+    name_en,
+    category,
+    image,
+    location,
+    phone,
+    google_map,
+    rating,
+    description
+  })
+    .then(() => res.redirect('/'))
+    .catch((err) => console.error(err))
+})
+
+app.get('/restaurants/:_id', async (req, res) => {
+  const { _id } = req.params
   try {
     // get to detail page
-    const restaurant = await Restaurant.findOne({ id }).lean()
+    const restaurant = await Restaurant.findOne({ _id }).lean()
     res.render('show', { restaurant })
   } catch (err) {
     console.error(err)
