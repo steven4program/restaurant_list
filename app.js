@@ -26,10 +26,10 @@ app.set('view engine', '.hbs')
 // setting static files
 app.use(express.static('public'))
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
   try {
     // get all restaurants data
-    const restaurants = Restaurant.find().lean()
+    const restaurants = await Restaurant.find().lean()
     res.render('index', { restaurants })
   } catch (err) {
     console.error(err)
@@ -59,12 +59,15 @@ app.get('/search', async (req, res) => {
   }
 })
 
-app.get('/restaurants/:restaurant_id', (req, res) => {
-  const { restaurant_id } = req.params
-  const restaurant = restaurantsData.results.find(
-    (restaurant) => restaurant_id === restaurant.id.toString()
-  )
-  res.render('show', { restaurant })
+app.get('/restaurants/:id', async (req, res) => {
+  const { id } = req.params
+  try {
+    // get to detail page
+    const restaurant = await Restaurant.findOne({ id }).lean()
+    res.render('show', { restaurant })
+  } catch (err) {
+    console.error(err)
+  }
 })
 
 app.use((req, res) => {
