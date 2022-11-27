@@ -1,0 +1,54 @@
+<form action="/restaurants" method="POST" class="w-50 ml-5 mt-5">
+  <div class="form-group">
+    <label for="name">Chinese Name</label>
+    <input type="text" class="form-control" id="name" name="name" placeholder="請輸入餐廳名稱 ..." required>
+  </div>
+
+  <div class="form-group">
+    <label for="name_en">English Name</label>
+    <input type="text" class="form-control" id="name_en" name="name_en" placeholder="請輸入餐廳英文名稱 ..." required>
+  </div>
+
+  <div class="form-group">
+    <label for="category">Category</label>
+    <input type="text" class="form-control" id="category" name="category" placeholder="請輸入料理種類" required>
+  </div>
+
+  <div class="form-group">
+    <label for="image">Image URL</label>
+    <input type="url" class="form-control" id="image" name="image" placeholder="請輸入照片 url ..." required>
+  </div>
+
+  <div class="form-group">
+    <label for="location">Address</label>
+    <input type="text" class="form-control" id="location" name="location" placeholder="請輸入地址 ..." required>
+  </div>
+
+  <div class="form-group">
+    <label for="phone">Phone</label>
+    <input type="tel" class="form-control" id="phone" name="phone" placeholder="請輸入電話 ..." required>
+  </div>
+
+  <div class="form-group">
+    <label for="google_map">Google Maps
+    </label>
+    <input type="url" class="form-control" id="google_map" name="google_map" placeholder="請輸入Google Maps url ..."
+           required>
+  </div>
+
+  <div class="form-group">
+    <label for="rating">Rating</label>
+    <input type="number" class="form-control" id="rating" name="rating" min="1" max="5" step="0.1" placeholder="請輸入評分分數"
+           required>
+  </div>
+
+  <div class="form-group">
+    <label for="description" rows="3" cols="20">餐廳簡介</label>
+    <textarea class="form-control" placeholder="請輸入餐廳簡介..." id="description" name="description" required></textarea>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+  <a href="/">
+    <button type="button" class="btn btn-info">Back</button>
+  </a>
+</form>

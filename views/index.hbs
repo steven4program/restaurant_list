@@ -19,6 +19,10 @@
   </div>
 </div>
 
+<div class="mx-auto mt-3" style="width: 200px;">
+  <a href="/restaurants/new" class="btn btn-primary btn-lg active">加入新餐廳</a>
+</div>
+
 {{!-- render this block when result is empty --}}
 {{#if emptyResult}}
 <div class="container mt-5">
@@ -31,12 +35,12 @@
 {{/if}}
 
 <!-- restaurant list -->
-<div class="container mt-5">
+<div class="container mt-3">
   <div class="row">
     <div class="col-md-10 col-12 mx-auto">
       <div class="card-columns">
         {{#each restaurants}}
-        <a href="/restaurants/{{this.id}}" class="text-secondary">
+        <a href="/restaurants/{{this._id}}" class="text-secondary">
           <div class="card mb-3">
             <img class="card-img-top" src="{{this.image}}"
                  alt="{{this.name}}">
