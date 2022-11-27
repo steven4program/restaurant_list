@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const { engine } = require('express-handlebars')
 const mongoose = require('mongoose')
+const Restaurant = require('./models/restaurant')
 
 mongoose.connect('mongodb://localhost/restaurant_list')
 
@@ -18,9 +19,6 @@ db.once('open', () => {
 
 const port = process.env.PORT || 3000
 
-// restaurants data
-const restaurantsData = require('./restaurant.json')
-
 // express template engine
 app.engine('.hbs', engine({ extname: '.hbs', defaultLayout: 'main' }))
 app.set('view engine', '.hbs')
@@ -29,24 +27,36 @@ app.set('view engine', '.hbs')
 app.use(express.static('public'))
 
 app.get('/', (req, res) => {
-  res.render('index', { restaurants: restaurantsData.results })
+  try {
+    // get all restaurants data
+    const restaurants = Restaurant.find().lean()
+    res.render('index', { restaurants })
+  } catch (err) {
+    console.error(err)
+  }
 })
 
-app.get('/search', (req, res) => {
-  // remove whitespace characters
-  const keyword = req.query.keyword.trim()
-  const restaurants = restaurantsData.results.filter(
-    (restaurant) =>
-      restaurant.name.toLowerCase().includes(keyword.toLowerCase()) ||
-      restaurant.category.toLowerCase().includes(keyword.toLowerCase())
-  )
+app.get('/search', async (req, res) => {
+  const { keyword } = req.query
+  try {
+    // search by name or category
+    const restaurants = await Restaurant.find({
+      $or: [
+        { name: { $regex: keyword, $options: 'i' } },
+        { category: { $regex: keyword, $options: 'i' } }
+      ]
+    }).lean()
 
-  // show alert when result is empty
-  let emptyResult = false
-  if (restaurants.length === 0) {
-    emptyResult = true
+    // show alert when result is empty
+    let emptyResult = false
+    if (restaurants.length === 0) {
+      emptyResult = true
+    }
+
+    res.render('index', { restaurants, keyword, emptyResult })
+  } catch (err) {
+    console.error(err)
   }
-  res.render('index', { restaurants, keyword, emptyResult })
 })
 
 app.get('/restaurants/:restaurant_id', (req, res) => {

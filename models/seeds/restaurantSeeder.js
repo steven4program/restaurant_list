@@ -21,5 +21,4 @@ db.once('open', () => {
     new Restaurant(restaurantData.results[i]).save()
   }
   console.log('Seed done')
-  process.exit()
 })
