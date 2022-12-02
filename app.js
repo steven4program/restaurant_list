@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const { engine } = require('express-handlebars')
 const mongoose = require('mongoose')
+const restaurant = require('./models/restaurant')
 const Restaurant = require('./models/restaurant')
 
 mongoose.connect('mongodb://localhost/restaurant_list')
@@ -70,7 +71,7 @@ app.get('/restaurants/new', (req, res) => {
 })
 
 // create a new restaurant
-app.post('/restaurants', (req, res) => {
+app.post('/restaurants', async (req, res) => {
   const {
     name,
     name_en,
@@ -83,7 +84,39 @@ app.post('/restaurants', (req, res) => {
     description
   } = req.body
 
-  return Restaurant.create({
+  try {
+    await Restaurant.create({
+      name,
+      name_en,
+      category,
+      image,
+      location,
+      phone,
+      google_map,
+      rating,
+      description
+    })
+    res.redirect('/')
+  } catch (err) {
+    console.error(err)
+  }
+})
+
+// get to edit page
+app.get('/restaurants/:_id/edit', async (req, res) => {
+  const { _id } = req.params
+  try {
+    const restaurant = await Restaurant.findOne({ _id }).lean()
+    res.render('edit', { restaurant })
+  } catch (err) {
+    console.error(err)
+  }
+})
+
+// edit restaurant
+app.post('/restaurants/:_id/edit', async (req, res) => {
+  const { _id } = req.params
+  const {
     name,
     name_en,
     category,
@@ -93,15 +126,31 @@ app.post('/restaurants', (req, res) => {
     google_map,
     rating,
     description
-  })
-    .then(() => res.redirect('/'))
-    .catch((err) => console.error(err))
+  } = req.body
+
+  try {
+    const restaurant = await Restaurant.findOne({ _id })
+    restaurant.name = name
+    restaurant.name_en = name_en
+    restaurant.category = category
+    restaurant.image = image
+    restaurant.location = location
+    restaurant.phone = phone
+    restaurant.google_map = google_map
+    restaurant.rating = rating
+    restaurant.description = description
+
+    await restaurant.save()
+    res.redirect(`/restaurants/${_id}`)
+  } catch (err) {
+    console.error(err)
+  }
 })
 
+// get to detail page
 app.get('/restaurants/:_id', async (req, res) => {
   const { _id } = req.params
   try {
-    // get to detail page
     const restaurant = await Restaurant.findOne({ _id }).lean()
     res.render('show', { restaurant })
   } catch (err) {
