@@ -147,6 +147,18 @@ app.post('/restaurants/:_id/edit', async (req, res) => {
   }
 })
 
+// delete restaurant
+app.post('/restaurants/:_id/delete', async (req, res) => {
+  const { _id } = req.params
+  try {
+    const restaurant = await Restaurant.findOne({ _id })
+    await restaurant.remove()
+    res.redirect('/')
+  } catch (err) {
+    console.error(err)
+  }
+})
+
 // get to detail page
 app.get('/restaurants/:_id', async (req, res) => {
   const { _id } = req.params

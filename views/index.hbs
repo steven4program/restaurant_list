@@ -51,12 +51,19 @@
                 <i class="fas fa-utensils pr-2"></i> {{this.category}}
               </div>
 
-              <span class="badge badge-pill badge-danger font-weight-normal">
+              <span class="badge badge-pill badge-info font-weight-normal">
                 {{this.rating}}
                 <i class="fas fa-star fa-xs"></i>
               </span>
+            </div>
 
-              <a class="card-link" href="./restaurants/{{this._id}}/edit" role="button">Edit</a>
+            <div class="card-body d-flex justify-content-end">
+              <button class="btn-light">
+                <a class="card-link" href="./restaurants/{{this._id}}/edit" role="button">Edit</a>
+              </button>
+              <form class="ml-2" action="./restaurants/{{this._id}}/delete" method="POST" style="display: inline;">
+                <button class="btn-danger" type="submit">delete</button>
+              </form>
             </div>
           </div>
         </a>
