@@ -1,22 +1,7 @@
 const express = require('express')
 const app = express()
 const { engine } = require('express-handlebars')
-const mongoose = require('mongoose')
-const restaurant = require('./models/restaurant')
 const Restaurant = require('./models/restaurant')
-
-mongoose.connect('mongodb://localhost/restaurant_list')
-
-const db = mongoose.connection
-
-db.on('error', (err) => {
-  console.error('MongoDB error:' + err.message)
-  process.exit(1)
-})
-
-db.once('open', () => {
-  console.log('MongoDB connection established')
-})
 
 const port = process.env.PORT || 3000
 
@@ -27,6 +12,8 @@ app.set('view engine', '.hbs')
 // setting static files
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
+
+require('./config/mongoose')
 
 app.get('/', async (req, res) => {
   try {
