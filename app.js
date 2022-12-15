@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const { engine } = require('express-handlebars')
 const routes = require('./routes')
+const methodOverride = require('method-override')
 
 const port = process.env.PORT || 3000
 
@@ -14,6 +15,8 @@ app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 
 require('./config/mongoose')
+
+app.use(methodOverride('_method'))
 
 app.use(routes)
 

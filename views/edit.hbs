@@ -1,4 +1,4 @@
-<form action="/restaurants/{{restaurant._id}}/edit" method="POST" class="w-50 ml-5 mt-5">
+<form action="/restaurants/{{restaurant._id}}?_method=PUT" method="POST" class="w-50 ml-5 mt-5">
   <div class="form-group">
     <label for="name">Chinese Name</label>
     <input type="text" class="form-control" id="name" name="name" value="{{restaurant.name}}" placeholder="請輸入餐廳名稱 ..."

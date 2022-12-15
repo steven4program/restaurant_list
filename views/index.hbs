@@ -61,7 +61,7 @@
               <button class="btn-light">
                 <a class="card-link" href="./restaurants/{{this._id}}/edit" role="button">Edit</a>
               </button>
-              <form class="ml-2" action="./restaurants/{{this._id}}/delete" method="POST" style="display: inline;">
+              <form class="ml-2" action="./restaurants/{{this._id}}?_method=DELETE" method="POST" style="display: inline;">
                 <button class="btn-danger" type="submit">delete</button>
               </form>
             </div>

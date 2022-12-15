@@ -55,7 +55,7 @@ router.get('/:_id/edit', async (req, res) => {
 })
 
 // edit restaurant
-router.post('/:_id/edit', async (req, res) => {
+router.put('/:_id', async (req, res) => {
   const { _id } = req.params
   const {
     name,
@@ -89,7 +89,7 @@ router.post('/:_id/edit', async (req, res) => {
 })
 
 // delete restaurant
-router.post('/:_id/delete', async (req, res) => {
+router.delete('/:_id', async (req, res) => {
   const { _id } = req.params
   try {
     const restaurant = await Restaurant.findOne({ _id })
